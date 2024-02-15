@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	// "fmt"
+	"njajal-go/config"
 	errors "njajal-go/pkg"
 	"njajal-go/repository"
+
 	// entities "njajal-go/db/sqlc"
-	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
-	// "github.com/golang-jwt/jwt"
 )
 
 type UserService interface {
@@ -52,14 +52,7 @@ func (us *UserServiceImpl) Login(ctx context.Context, email string, password str
 	if err != nil {
 		return "", errors.ErrInvalidPassword
 	}
-	// Create a JWT token
-	// token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-	key := []byte("secret")
-	claims := jwt.MapClaims{
-		"id": user.ID,
-	}
-	t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := t.SignedString(key)
+	_, token, err := config.TokenAuth.Encode(map[string]interface{}{"user_id": user.ID})
 	if err != nil {
 		return "", err
 	}

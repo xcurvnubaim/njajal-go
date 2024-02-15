@@ -70,6 +70,7 @@ func (uc *UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, ErrorResponse{Message: err.Error()})
 		return
 	}
+	
 	token, err := uc.userService.Login(r.Context(), request.Email, request.Password)
 	if err != nil {
 		render.Status(r, http.StatusBadRequest)
