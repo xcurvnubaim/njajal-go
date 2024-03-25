@@ -19,7 +19,8 @@ after_success:
 
   # Optional: Run additional tests against the running Docker container
   # - curl http://localhost:3000/healthcheck
-
+ignore:
+  - Makefile
 # Configure notifications, if desired
 
 # Additional configuration options as needed
