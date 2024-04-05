@@ -1,5 +1,5 @@
-# Start from the official golang image
-FROM golang:1.21.5
+# Start from a smaller base image like alpine
+FROM golang:1.21.5 AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -15,6 +15,15 @@ COPY . .
 
 # Build the Go app
 RUN go build -o main .
+
+# Start a new stage from a smaller base image
+FROM alpine:latest
+
+# Set the Current Working Directory inside the container
+WORKDIR /app
+
+# Copy the pre-built binary from the previous stage
+COPY --from=builder /app/main .
 
 # Expose port 3000 to the outside world
 EXPOSE 3000
