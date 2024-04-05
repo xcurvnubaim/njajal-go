@@ -37,9 +37,6 @@ func main() {
 	r.Get("/api", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("API is working!"))
 	})
-	r.Get("Healthcheck", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("API is working!"))
-	})
 	// Define the user routes
 	r.Mount("/api/user", routes.UserRoutes(r,userController))
 
